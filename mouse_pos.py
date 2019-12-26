@@ -3,7 +3,7 @@ import time
 import sys
 
 
-def mouse():
+def show_mouse():
     title = "\n\nGetting current mouse position: \nPress CONTROL-C to quit."
     print(title)
     running = True
@@ -19,5 +19,21 @@ def mouse():
             break
 
 
+def save_mouse_on_close(prompt):
+
+    print(prompt)
+    running = True
+    while running:
+        try:
+            pos = pyautogui.position()
+            print(f"{pos}", end='\r')
+
+            time.sleep(.1)
+
+        except KeyboardInterrupt:
+            print(f"\nShutting Down \nFinal mouse position:{pos}\n")
+            return pos.x, pos.y
+
+
 if __name__ == "__main__":
-    mouse()
+    save_mouse_on_close("\nTest Script for mouse_pos.py!\n")

@@ -1,11 +1,15 @@
 import pyautogui
 import time
 from progress.bar import Bar
+import mouse_pos
 
 waittime = 1.5
 
 
 class Sell_Bot():
+    # Prompts
+    card_prompt = "\nHow many cards do you want to turn into gems?\n"
+    coord_prompt = "\n\nDisplaying mouse coordinates.\nWhen hovered over starting card, press CONTROL-C to start selling!\n\n"
 
     def __init__(self):
         self.cards = int
@@ -19,10 +23,13 @@ class Sell_Bot():
     def cards_to_gems(self):
         try:
             self.cards = int(
-                input("\nHow many cards do you want to turn into gems?\n"))
-            bar = Bar('\nProcessing', max=self.cards)
+                input(self.card_prompt))
+            x_coord, y_coord = mouse_pos.save_mouse_on_close(self.coord_prompt)
+
+            bar = Bar('Processing', max=self.cards)
+
             for _ in range(self.cards):
-                pyautogui.moveTo(x=226, y=361)
+                pyautogui.moveTo(x=int(x_coord), y=int(y_coord))
                 pyautogui.click()
                 time.sleep(waittime)
                 self.locate_button("capture.png")
